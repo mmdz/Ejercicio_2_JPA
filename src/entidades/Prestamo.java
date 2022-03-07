@@ -6,23 +6,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /*@Author Mellmdz*/
 @Entity
 public class Prestamo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//automatizo el ID
     private Integer id;
-    
+    @Temporal(TemporalType.DATE)
     private Date fechaPrestamo;
+    @Temporal(TemporalType.DATE)
     private Date fechaDevolucion;
-    
+    @Temporal (TemporalType.DATE)
+    private Date fechaActual;
+
     @OneToOne
     private Libro libro;
     @OneToOne
     private Cliente cliente;
 
-    
     public Prestamo(Date fechaPrestamo, Date fechaDevolucion, Libro libro, Cliente cliente) {
         this.fechaPrestamo = fechaPrestamo;
         this.fechaDevolucion = fechaDevolucion;
@@ -38,17 +43,16 @@ public class Prestamo {
         this.cliente = cliente;
     }
 
-    
-    public Prestamo(){
-        
+    public Prestamo() {
+
     }
-    
-    
+
     @Override
     public String toString() {
-        return "Prestamo{" + "id=" + id + ", fechaPrestamo=" + fechaPrestamo + ", fechaDevolucion=" + fechaDevolucion + ", libro=" + libro + ", cliente=" + cliente + '}';
+        return "Prestamo{" + "id=" + id + "Fecha actual" + fechaActual +", fechaPrestamo=" + fechaPrestamo + ", fechaDevolucion=" + fechaDevolucion + ", libro=" + libro + ", cliente=" + cliente + '}';
     }
 //getter y setter
+
     public Integer getId() {
         return id;
     }
@@ -88,8 +92,13 @@ public class Prestamo {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
-    
-    
+
+    public Date getFechaActual() {
+        return fechaActual;
+    }
+
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
+    }
 
 }
