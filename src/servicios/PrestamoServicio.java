@@ -1,19 +1,12 @@
 package servicios;
 
+import entidades.Cliente;
+import entidades.Libro;
 import entidades.Prestamo;
-import static java.sql.JDBCType.DATE;
-import static java.sql.Types.DATE;
-import java.time.LocalDate;
-import java.util.Calendar;
-import static java.util.Calendar.DATE;
+
+import java.util.Date;
 import java.util.Scanner;
-import static javafx.scene.AccessibleAttribute.DATE;
-import static javax.management.openmbean.SimpleType.DATE;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import static javax.persistence.TemporalType.DATE;
-import static javax.persistence.TemporalType.TIME;
-import static org.eclipse.persistence.sdo.SDOConstants.DATE;
+
 import persistencia.PrestamoDAO;
 
 /*@Author Mellmdz*/
@@ -21,19 +14,44 @@ public class PrestamoServicio {
 
     PrestamoDAO pdao = new PrestamoDAO();
 
-    public Prestamo crearCliente(Prestamo p) throws Exception {
+    public Date crearFecha() {
+        Scanner leer = new Scanner(System.in).useDelimiter("\n");
+
+        System.out.println("Dia: ");
+        int dia = leer.nextInt();
+
+        System.out.println("Mes: ");
+        int mes = leer.nextInt();
+
+        System.out.println("anio: ");
+        int anio = leer.nextInt();
+
+        Date fechaIngresada = (new Date(anio - 1900, mes - 1, dia));
+
+        return fechaIngresada;
+    }
+
+    public Prestamo crearPrestamo(Cliente cliente, Libro libro) throws Exception {
+
+        Prestamo p = new Prestamo();
+
+        System.out.println("Ingrese fecha actual");
+        p.setFechaActual(crearFecha());
+
+        System.out.println("Ingrese fecha de préstamo");
+        p.setFechaPrestamo(crearFecha());
+
+        System.out.println("Ingrese fecha de devolución");
+        p.setFechaDevolucion(crearFecha());
+
+        // System.out.println("Ingrese Libro");       
+        p.setLibro(libro);
+
+        // System.out.println("Ingrese Cliente");
+        p.setCliente(cliente);
+
         validaciones(p);
-      
-//        Scanner leer = new Scanner(System.in);
-//        System.out.println("Ingrese dia:");
-//        Integer dia = leer.nextInt();
-//        System.out.println("Ingrese mes:");
-//        Integer mes = leer.nextInt();
-//        System.out.println("Ingrese año:");
-//        Integer anio = leer.nextInt();
-        
-        
-        //p.setFechaActual();
+
         pdao.crear(p);
         return p;
     }
@@ -51,19 +69,22 @@ public class PrestamoServicio {
         /*No generar condiciones inválidas. Por ejemplo, no se debe permitir prestar más
         ejemplares de los que hay, ni devolver más de los que se encuentran prestados.
         No se podrán prestar libros con fecha anterior a la fecha actual, etc.*/
+
         if (p.getLibro() == null) {
             throw new Exception("Libro no encontrado");
         }
-        
- 
-        
-        
 
-        if (p.getFechaPrestamo() == null) {
-            throw new Exception("Fecha invalida");
+        if (p.getFechaPrestamo() == null || p.getFechaPrestamo().equals(p.getFechaActual()) 
+                || p.getFechaPrestamo().before(p.getFechaActual())) {
+            throw new Exception("Debe ser una fecha posterior a la fecha actual ");
+        }
+
+        if (p.getFechaDevolucion() == null || p.getFechaDevolucion().equals(p.getFechaActual())
+                ||p.getFechaDevolucion().before(p.getFechaPrestamo())) {
+            throw new Exception("Debe ser una fecha posterior a la fecha actual ");
         }
     }
-    
+
     public Prestamo buscarLibroPorId(Integer id) {
         return pdao.buscarLibroPorId(id);
     }
@@ -79,5 +100,4 @@ public class PrestamoServicio {
 //    public List<Libro> buscarLibroPorNombreEditorial(String nombre) {
 //        return ldao.buscarLibroPorNombreEditorial(nombre);
 //    }
-    
 }

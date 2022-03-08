@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.Date;
+import java.util.Scanner;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,13 +21,30 @@ public class Prestamo {
     private Date fechaPrestamo;
     @Temporal(TemporalType.DATE)
     private Date fechaDevolucion;
-    @Temporal (TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date fechaActual;
 
     @OneToOne
     private Libro libro;
     @OneToOne
     private Cliente cliente;
+
+//    public Date crearFecha() {
+//        Scanner leer = new Scanner(System.in).useDelimiter("\n");
+//
+//        System.out.println("Dia: ");
+//        int dia = leer.nextInt();
+//
+//        System.out.println("Mes: ");
+//        int mes = leer.nextInt();
+//
+//        System.out.println("anio: ");
+//        int anio = leer.nextInt();
+//
+//        Date fechaIngresada = (new Date(anio - 1900, mes - 1, dia));
+//
+//        return fechaIngresada;
+//    }
 
     public Prestamo(Date fechaPrestamo, Date fechaDevolucion, Libro libro, Cliente cliente) {
         this.fechaPrestamo = fechaPrestamo;
@@ -49,7 +67,7 @@ public class Prestamo {
 
     @Override
     public String toString() {
-        return "Prestamo{" + "id=" + id + "Fecha actual" + fechaActual +", fechaPrestamo=" + fechaPrestamo + ", fechaDevolucion=" + fechaDevolucion + ", libro=" + libro + ", cliente=" + cliente + '}';
+        return "Prestamo{" + "id=" + id + "Fecha actual" + fechaActual + ", fechaPrestamo=" + fechaPrestamo + ", fechaDevolucion=" + fechaDevolucion + ", libro=" + libro + ", cliente=" + cliente + '}';
     }
 //getter y setter
 

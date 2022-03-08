@@ -18,7 +18,6 @@ public class ClienteDAO extends DAO {
                 throw new Exception("Error haciendo rollback de cliente");
             }
             throw new Exception("Error al persitir un cliente");
-
         }
     }
 

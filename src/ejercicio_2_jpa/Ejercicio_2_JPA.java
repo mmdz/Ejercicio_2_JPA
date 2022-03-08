@@ -1,20 +1,24 @@
 package ejercicio_2_jpa;
 
 import entidades.Autor;
+import entidades.Cliente;
 import entidades.Editorial;
 import entidades.Libro;
+import entidades.Prestamo;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import servicios.AutorServicio;
+import servicios.ClienteServicio;
 import servicios.EditorialServicio;
 import servicios.LibroServicio;
+import servicios.PrestamoServicio;
 
 /*@Author Mellmdz*/
-
 public class Ejercicio_2_JPA {
 
     public static void main(String[] args) {
-  try {
+        try {
             //creo los servicios
             AutorServicio as = new AutorServicio();
             EditorialServicio es = new EditorialServicio();
@@ -47,37 +51,40 @@ public class Ejercicio_2_JPA {
             ls.crearLibro(l3);
             ls.crearLibro(l4);
 
-            System.out.println("--------");//busca autor
-       System.out.println(as.buscarPorNombre("Sabato").toString());
-        
-        System.out.println("---------");
-        System.out.println(ls.buscarLibroPorIsbn(1000L).toString());
-        
-        System.out.println("---------");
-        System.out.println(ls.buscarLibroPorTitulo("Rayuela"));
-        
-        System.out.println("---------"); //tit, aut, edi
-        System.out.println(ls.buscarLibroPorNombreAutor("JaneAusten"));
-
+//            System.out.println("--------");//busca autor
+//            System.out.println(as.buscarPorNombre("Sabato").toString());
+//
+//            System.out.println("---------");
+//            System.out.println(ls.buscarLibroPorIsbn(1000L).toString());
+//
+//            System.out.println("---------");
+//            System.out.println(ls.buscarLibroPorTitulo("Rayuela"));
+//
+//            System.out.println("---------"); //tit, aut, edi
+//            System.out.println(ls.buscarLibroPorNombreAutor("JaneAusten"));
             System.out.println("---------");
 
-            List<Libro> lista = new ArrayList();
-            lista = ls.buscarLibroPorNombreEditorial("Planeta");
+//            List<Libro> lista = new ArrayList();
+//            lista = ls.buscarLibroPorNombreEditorial("Planeta");
+//
+//            for (int i = 0; i < lista.size(); i++) { //uso una lista para que muestre varias 
+//                //System.out.println(lista.get(i).getTitulo().toString());
+//                System.out.println(lista.get(i).getTitulo().toString());
+//            }
+            //////////////////////////////    
+            ClienteServicio cs = new ClienteServicio();
+            Cliente c1 = new Cliente(100000L, "Garcia", "Maria", "111111");
+            cs.crearCliente(c1);
 
-            for (int i = 0; i < lista.size(); i++) { //uso una lista para que muestre varias 
-                //System.out.println(lista.get(i).getTitulo().toString());
-                System.out.println(lista.get(i).getTitulo().toString());
-
-            }
+            PrestamoServicio ps = new PrestamoServicio();
+            ps.crearPrestamo(c1, l1);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
-       }
+        }
     }
 
     /*validar FECHAS!!*/
-    
-    
 //1. Creación de un Cliente nuevo
 //2. Crear entidad Préstamo
 //3. Registrar el préstamo de un libro.
@@ -87,7 +94,7 @@ public class Ejercicio_2_JPA {
 //• Validar campos obligatorios.
 //• No ingresar datos duplicados.
 //• No generar condiciones inválidas. Por ejemplo, no se debe permitir 
- //   prestar más ejemplares de los que hay, ni devolver más de los que 
+    //   prestar más ejemplares de los que hay, ni devolver más de los que 
     //se encuentran prestados.
 //No se podrán prestar libros con fecha anterior a la fecha actual, etc.
 }
